@@ -43,18 +43,18 @@ export default function Admins() {
   };
 
   return (
-    <div className="mx-auto max-w-xl p-6 border-2 border-lime-500 rounded-2xl shadow-md bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
+    <div className="mx-auto max-w-xl p-6 border-2 border-lime-500 rounded-2xl shadow-md bg-white   text-gray-800  ">
       <h2 className="text-2xl font-bold mb-4 text-lime-500 text-center">Admins</h2>
 
       <ul className="space-y-3">
         {admins.map((a,index) => (
           <li
             key={index}
-            className="p-4 border border-gray-200 dark:border-gray-700 rounded-md w-full flex justify-between items-center"
+            className="p-4 border border-gray-200   rounded-md w-full flex justify-between items-center"
           >
             <div>
               <p className="font-semibold">{a.name}</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{a.email}</p>
+              <p className="text-sm text-gray-600  ">{a.email}</p>
             </div>
             <button onClick={() => handleDeleteClick(a.id)} className="text-red-500 hover:text-red-700">
               <Trash2 size={20} />
@@ -65,8 +65,8 @@ export default function Admins() {
 
       {showConfirm && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800/80 p-6 rounded-xl shadow-xl max-w-sm w-full text-center">
-            <p className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">
+          <div className="bg-white   p-6 rounded-xl shadow-xl max-w-sm w-full text-center">
+            <p className="text-lg font-semibold mb-4 text-gray-800  ">
               Are you sure you want to delete this admin?
             </p>
             <div className="flex justify-center gap-4">

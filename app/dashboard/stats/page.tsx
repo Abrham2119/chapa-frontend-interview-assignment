@@ -20,12 +20,12 @@ const Stats = () => {
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-white dark:bg-gray-900 border-2 border-lime-500 rounded-2xl p-5 shadow-md text-center">
-            <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">Total Payments</h4>
+          <div className="bg-white   border-2 border-lime-500 rounded-2xl p-5 shadow-md text-center">
+            <h4 className="text-lg font-semibold text-gray-700   mb-2">Total Payments</h4>
             <p className="text-xl font-bold text-lime-500">${stats?.totalPayments || 0}</p>
           </div>
-          <div className="bg-white dark:bg-gray-900 border-2 border-lime-500 rounded-2xl p-5 shadow-md text-center">
-            <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">Active Users</h4>
+          <div className="bg-white   border-2 border-lime-500 rounded-2xl p-5 shadow-md text-center">
+            <h4 className="text-lg font-semibold text-gray-700   mb-2">Active Users</h4>
             <p className="text-xl font-bold text-lime-500">{stats?.activeUsers || 0}</p>
           </div>
         </div>

@@ -52,7 +52,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     return (
       <div className={`flex flex-col gap-1 w-full`} style={{ maxWidth: width }}>
         {label && (
-          <label className="text-[14px] font-medium text-[#6C6C6C] dark:text-white">
+          <label className="text-[14px] font-medium text-[#6C6C6C]  ">
             {label}
           </label>
         )}

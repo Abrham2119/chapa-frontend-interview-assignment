@@ -30,7 +30,7 @@ export default function Wallet() {
   if (!balance) return <div>Loading...</div>;
 
   return (
-   <div className="mx-auto max-w-md p-6 border-2 border-lime-500 rounded-2xl shadow-md bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
+   <div className="mx-auto max-w-md p-6 border-2 border-lime-500 rounded-2xl shadow-md bg-white   text-gray-800  ">
       <h2 className="text-2xl font-bold mb-4 text-lime-500">Wallet</h2>
       <p className="text-lg font-medium">Balance: <span className="font-bold">${balance.toFixed(2)}</span></p>
     </div>
