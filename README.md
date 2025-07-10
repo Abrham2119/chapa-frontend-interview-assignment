@@ -1,4 +1,4 @@
-🌟 Chapa Frontend Interview Assignment
+![image](https://github.com/user-attachments/assets/52f3417d-d47b-4588-aa7e-2e25aca63f7f)🌟 Chapa Frontend Interview Assignment
 This is a Next.js project implementing a role-based dashboard application with authentication, session persistence, and mock APIs. The application supports three user roles—User, Admin, and Super Admin—with distinct dashboard functionalities, including wallet balance, transaction management, user management, admin management, and system statistics. The project uses modern web technologies to deliver a responsive and secure user experience.
 
 🚀 Features
@@ -166,9 +166,16 @@ superadmin@gmail.com/superadmin → /dashboard/admins.
 2. User Dashboard 🧑
 
 Log in as john@gmail.com / userpass → Redirects to /dashboard/wallet.
-Wallet (/dashboard/wallet):
-Shows balance (e.g., $500.75).
+![image](https://github.com/user-attachments/assets/e0f50842-dc41-4cc2-967a-4a043d886f54)
 
+
+Wallet (/dashboard/wallet):
+![image](https://github.com/user-attachments/assets/c5643543-b5c9-450d-a887-8dadc4d79472)
+
+![image](https://github.com/user-attachments/assets/1e97a90a-7d32-4f67-a00d-cfb257df4593)
+
+Shows balance (e.g., $500.75).
+![image](https://github.com/user-attachments/assets/ff263cc7-e015-43ab-b8c4-01ec3a28dda3)
 
 Transactions (/dashboard/transactions):
 Lists 20 transactions (filtered by user ID).
@@ -185,14 +192,14 @@ Log in as   jane@gmail.com / userpass
 Users (/dashboard/users):
 Toggle status (e.g., Deactivate Alice Johnson) → Updates to inactive.
 Edit user (e.g., change Bob Brown’s name) → Saves changes.
+![image](https://github.com/user-attachments/assets/04c877a4-69df-4423-82f7-9b6afd82e66c)
 
 
 Payments (/dashboard/payments):
 Shows by card of user payments.
 
+![image](https://github.com/user-attachments/assets/456c0e3c-b5dd-4f16-9469-8ccc07dd89be)
 
-Transactions (/dashboard/transactions):
-Same as User role, no redirects.
 
 
 
@@ -203,16 +210,17 @@ Same as User role, no redirects.
 Log in as super@gmail.com / userpass
 Admins (/dashboard/admins):
 Lists 5 admins.
-Add admin (e.g., newadmin@gmail.com) → Adds to list.
 Delete admin (e.g., Michael Brown) → Removes from list.
+![image](https://github.com/user-attachments/assets/326cb32c-711a-4ed0-a953-5d16845aa2c7)
+
+![image](https://github.com/user-attachments/assets/881551c5-94fa-4d17-9788-81260fbcbced)
+
 
 
 Stats (/dashboard/stats):
 Shows total payments and active users.
+![image](https://github.com/user-attachments/assets/762da597-0be9-4d43-b205-6d769e07d133)
 
-
-Users, Payments, Transactions, Wallet:
-Same as Admin/User roles, no redirects.
 
 
 
@@ -220,6 +228,17 @@ Same as Admin/User roles, no redirects.
 
 Invalid login (e.g., invalid@gmail.com/wrongpass) → Shows “Invalid email or password”.
 Non-Gmail email → Shows “Email must be a Gmail address”.
+
+6, Fully mobile responsive 
+
+![image](https://github.com/user-attachments/assets/8a994f8b-d436-409e-bc5e-f2ed47aa3e3c)
+
+![image](https://github.com/user-attachments/assets/086de72b-c381-4e72-9ffd-e445e2964173)
+
+![image](https://github.com/user-attachments/assets/47c62d01-1a86-4503-9e07-f10c23d4f9e4)
+
+
+
 
 
 🛠️ Troubleshooting
