@@ -1,17 +1,16 @@
-'use client';
+'use client'
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-
-import { useState } from 'react';
-import Cookies from 'js-cookie';
-import { useAppDispatch } from '@/redux/hooks';
-import { setUser } from '@/redux/slices/authSlice';
-import InputField from '@/components/ui/InputField/InputField';
-import { Phone, Lock, Loader } from 'lucide-react';
-import { Button } from '../ui/Button/Button';
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import Cookies from 'js-cookie'
+import { useAppDispatch } from '@/redux/hooks'
+import { setUser } from '@/redux/slices/authSlice'
+import InputField from '@/components/ui/InputField/InputField'
+import { Phone, Lock, Loader } from 'lucide-react'
+import { Button } from '../ui/Button/Button'
 
 const loginSchema = z.object({
   email: z
@@ -21,49 +20,48 @@ const loginSchema = z.object({
       message: 'Email must be a Gmail address',
     }),
   password: z.string().min(6, 'Password must be at least 6 characters'),
-});
+})
 
-type LoginFormData = z.infer<typeof loginSchema>;
+type LoginFormData = z.infer<typeof loginSchema>
 
 const SigninForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-  });
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  })
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      })
+      const result = await response.json()
       if (response.ok) {
-        Cookies.set('user', JSON.stringify({ email: data.email, role: result.role }), { expires: 7 });
-          const role = result.role
-                  dispatch(setUser({ email: data.email, role: result.role }));
+        Cookies.set('user', JSON.stringify({ email: data.email, role: result.role }), { expires: 7 })
+        dispatch(setUser({ email: data.email, role: result.role }))
 
-       if (role === 'User') {
-            router.push('/dashboard/wallet');
-          } else if (role === 'Admin') {
-            router.push('/dashboard/users');
-          } else if (role === 'Super_Admin') {
-            router.push('/dashboard/admins');
-          }
+        if (result.role === 'User') {
+          router.push('/dashboard/wallet')
+        } else if (result.role === 'Admin') {
+          router.push('/dashboard/users')
+        } else if (result.role === 'Super_Admin') {
+          router.push('/dashboard/admins')
+        }
       } else {
-        setError(result.error || 'Login failed');
+        setError(result.error || 'Login failed')
       }
     } catch (err) {
-      setError('An error occurred during login');
+      setError('An error occurred during login')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="w-full">
@@ -77,14 +75,14 @@ const SigninForm = () => {
           error={errors.email?.message}
         />
         <InputField
-          label={"password"}
+          label={"Password"}
           type="password"
           {...register("password")}
           icon={<Lock size={16} />}
           placeholder="Enter your password"
           error={errors.password?.message}
         />
-        <Button type="submit" variant="primary" disabled={isLoading} onClick={()=>{}}>
+        <Button type="submit" variant="primary" disabled={isLoading}>
           {isLoading ? (
             <Loader className="animate-spin w-4 h-4 mr-2" />
           ) : (
@@ -94,7 +92,7 @@ const SigninForm = () => {
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default SigninForm;
+export default SigninForm
