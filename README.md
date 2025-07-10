@@ -145,6 +145,9 @@ Verify console shows [MSW] Mocking enabled.
 🧪 Testing Instructions
 1. Homepage Redirect 🔗
 
+![image](https://github.com/user-attachments/assets/ab370f31-4925-494f-9c04-96fc92d2b78f)
+
+
 No Cookie:
 Visit http://localhost:3000 → Shows login form.
 
@@ -255,5 +258,6 @@ Role Enum: Defined in src/types/index.ts for type safety.
 Centralized APIs: All handlers in src/services/api/handlers.ts.
 
 For further enhancements or issues, contact the developer with specific details (e.g., console errors, desired features).
+
 
 Built with ❤️ using Next.js and TypeScript on July 9, 2025.
