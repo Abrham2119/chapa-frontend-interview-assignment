@@ -122,7 +122,7 @@ cd chapa-frontend-interview-assignment
 
 
 Install Dependencies:
-yarn install
+yarn /yarn install 
 
 
 Setup MSW:
