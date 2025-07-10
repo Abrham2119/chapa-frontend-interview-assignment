@@ -82,7 +82,7 @@ const SigninForm = () => {
           placeholder="Enter your password"
           error={errors.password?.message}
         />
-        <Button type="submit" variant="primary" disabled={isLoading}>
+        <Button onClick={()=>{}} type="submit" variant="primary" disabled={isLoading}>
           {isLoading ? (
             <Loader className="animate-spin w-4 h-4 mr-2" />
           ) : (
