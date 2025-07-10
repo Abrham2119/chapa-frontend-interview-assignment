@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/52f3417d-d47b-4588-aa7e-2e25aca63f7f)🌟 Chapa Frontend Interview Assignment
+🌟 Chapa Frontend Interview Assignment
 This is a Next.js project implementing a role-based dashboard application with authentication, session persistence, and mock APIs. The application supports three user roles—User, Admin, and Super Admin—with distinct dashboard functionalities, including wallet balance, transaction management, user management, admin management, and system statistics. The project uses modern web technologies to deliver a responsive and secure user experience.
 
 🚀 Features
