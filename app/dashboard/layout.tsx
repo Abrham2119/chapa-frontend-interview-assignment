@@ -1,7 +1,7 @@
 'use client';
 
 import { Navbar } from "@/components/features/Layout/Navbar";
-import { Sidebar } from "@/components/features/Layout/Sidebar.tsx";
+import { Sidebar } from "@/components/features/Layout/Sidebar";
 import { useAuth } from "@/hooks/useAuth";
 
 

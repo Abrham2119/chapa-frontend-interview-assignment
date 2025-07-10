@@ -22,34 +22,36 @@ type NavItem = {
 export function NavItems() {
   const { role } = useAuth();
 
+
+
   const navItems: NavItem[] = [
     {
       id: 1,
       href: '/dashboard/wallet',
       label: 'Wallet',
       icon: <WalletIcon />,
-      roles: [Role.USER, Role.ADMIN, Role.SUPER_ADMIN]
+      roles: [Role.USER]
     },
     {
       id: 2,
       href: '/dashboard/transactions',
       label: 'Transactions',
       icon: <TransactionsIcon />,
-      roles: [Role.USER, Role.ADMIN, Role.SUPER_ADMIN]
+      roles: [Role.USER]
     },
     {
       id: 3,
       href: '/dashboard/users',
       label: 'Users',
       icon: <UsersIcon />,
-      roles: [Role.ADMIN, Role.SUPER_ADMIN]
+      roles: [Role.ADMIN]
     },
     {
       id: 4,
       href: '/dashboard/payments',
       label: 'Payments',
       icon: <PaymentsIcon />,
-      roles: [Role.ADMIN, Role.SUPER_ADMIN]
+      roles: [Role.ADMIN]
     },
     {
       id: 5,
@@ -73,8 +75,8 @@ export function NavItems() {
 
   return (
     <ul className="py-10 space-y-2 font-medium">
-      {filteredItems.map((item) => (
-        <li key={item.id}>
+      {filteredItems.map((item,index) => (
+        <li key={index}>
           <Link
             href={item.href}
             className="flex items-center p-2 text-white rounded-lg hover:bg-lime-600 group"

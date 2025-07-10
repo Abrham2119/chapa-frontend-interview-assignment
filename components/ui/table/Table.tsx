@@ -1,6 +1,13 @@
 'use client';
 
-import { useTable, useFilters, useGlobalFilter, Column } from 'react-table';
+import {
+  useTable,
+  useFilters,
+  useGlobalFilter,
+  Column,
+  TableState,
+  TableInstance,
+} from 'react-table';
 import { Search, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 
@@ -9,18 +16,34 @@ interface TableProps<T extends object> {
   data: T[];
   loading?: boolean;
   error?: string | null;
+  state?: any;
 }
+type TableInstanceWithGlobalFilter<T extends object> = TableInstance<T> & {
+  setGlobalFilter: (filterValue: string | undefined) => void;
+  state: TableState<T> & { globalFilter: string };
+};
 
 const Table = <T extends object>({ columns, data, loading, error }: TableProps<T>) => {
+  const tableInstance = useTable<T>(
+    {
+      columns,
+      data,
+    },
+    useFilters,
+    useGlobalFilter
+  ) as TableInstanceWithGlobalFilter<T>;
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    state: { globalFilter },
+    state,
     setGlobalFilter,
-  } = useTable<T>({ columns, data }, useFilters, useGlobalFilter);
+  } = tableInstance;
+
+  const globalFilter = state.globalFilter;
 
   const [isSearching, setIsSearching] = useState(false);
 
@@ -30,38 +53,45 @@ const Table = <T extends object>({ columns, data, loading, error }: TableProps<T
     setTimeout(() => setIsSearching(false), 500);
   };
 
+  const SearchInput = (
+    <div
+      className="flex items-center w-full md:max-w-[280px] h-[33px] border rounded-xl px-4 mb-4"
+      style={{
+        borderColor: 'var(--Colors-Neutral-300, #F1F2F9)',
+        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+      }}
+    >
+      <input
+        type="text"
+        value={globalFilter || ''}
+        onChange={handleSearchInputChange}
+        placeholder="Search..."
+        className="flex-grow bg-transparent outline-none text-sm text-gray-500 placeholder:text-gray-400"
+        aria-label="Search"
+      />
+      {isSearching ? (
+        <RefreshCw className="w-4 h-4 text-black animate-spin ml-2" />
+      ) : (
+        <Search className="w-4 h-4 text-black ml-2" />
+      )}
+    </div>
+  );
+
   if (loading) {
     return (
       <div className="w-full px-5">
-        <div className="flex items-center w-full md:max-w-[280px] h-[33px] border rounded-xl px-4 mb-4" style={{
-          borderColor: 'var(--Colors-Neutral-300, #F1F2F9)',
-          boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-        }}>
-          <input
-            type="text"
-            value={globalFilter || ''}
-            onChange={handleSearchInputChange}
-            placeholder="Search..."
-            className="flex-grow bg-transparent outline-none text-sm text-gray-500 placeholder:text-gray-400"
-            aria-label="Search"
-          />
-          {isSearching ? (
-            <RefreshCw className="w-4 h-4 text-black animate-spin ml-2" />
-          ) : (
-            <Search className="w-4 h-4 text-black ml-2" />
-          )}
-        </div>
-
+        {SearchInput}
         <div className="overflow-x-auto rounded-lg border border-[#F1F2F9]">
           <div className="px-1">
             <table className="w-full text-sm min-w-[600px] border-separate border-spacing-y-4">
               <thead>
                 {headerGroups.map((headerGroup) => (
-                  <tr {...headerGroup.getHeaderGroupProps()} className="text-start">
+                  <tr {...headerGroup.getHeaderGroupProps()} className="text-start" key={headerGroup.id}>
                     {headerGroup.headers.map((column) => (
-                      <th 
-                        {...column.getHeaderProps()} 
+                      <th
+                        {...column.getHeaderProps()}
                         className="px-4 py-2 text-start text-[#535353]"
+                        key={column.id}
                       >
                         {column.render('Header')}
                       </th>
@@ -71,11 +101,16 @@ const Table = <T extends object>({ columns, data, loading, error }: TableProps<T
               </thead>
               <tbody>
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <tr key={index} className="bg-white rounded-sm shadow-[0px_2px_16px_0px_#999BA81F] animate-pulse">
+                  <tr
+                    key={index}
+                    className="bg-white rounded-sm shadow-[0px_2px_16px_0px_#999BA81F] animate-pulse"
+                  >
                     {columns.map((_, colIndex) => (
-                      <td 
-                        key={colIndex} 
-                        className={`px-4 py-6 ${colIndex === 0 ? 'rounded-l-sm' : ''} ${colIndex === columns.length - 1 ? 'rounded-r-sm' : ''}`}
+                      <td
+                        key={colIndex}
+                        className={`px-4 py-6 ${
+                          colIndex === 0 ? 'rounded-l-sm' : ''
+                        } ${colIndex === columns.length - 1 ? 'rounded-r-sm' : ''}`}
                       >
                         <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                       </td>
@@ -86,7 +121,6 @@ const Table = <T extends object>({ columns, data, loading, error }: TableProps<T
             </table>
           </div>
         </div>
-
         <div className="flex justify-center items-center py-8">
           <div className="flex items-center gap-3 text-gray-600">
             <RefreshCw className="w-5 h-5 animate-spin" />
@@ -100,32 +134,12 @@ const Table = <T extends object>({ columns, data, loading, error }: TableProps<T
   if (error) {
     return (
       <div className="w-full px-5">
-        <div className="flex items-center w-full md:max-w-[280px] h-[33px] border rounded-xl px-4 mb-4" style={{
-          borderColor: 'var(--Colors-Neutral-300, #F1F2F9)',
-          boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-        }}>
-          <input
-            type="text"
-            value={globalFilter || ''}
-            onChange={handleSearchInputChange}
-            placeholder="Search..."
-            className="flex-grow bg-transparent outline-none text-sm text-gray-500 placeholder:text-gray-400"
-            aria-label="Search"
-          />
-          {isSearching ? (
-            <RefreshCw className="w-4 h-4 text-black animate-spin ml-2" />
-          ) : (
-            <Search className="w-4 h-4 text-black ml-2" />
-          )}
-        </div>
-
+        {SearchInput}
         <div className="flex flex-col items-center justify-center py-16">
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-gray-900">Failed to load data</h3>
-              <p className="text-sm text-gray-600 max-w-md">
-                {error}
-              </p>
+              <p className="text-sm text-gray-600 max-w-md">{error}</p>
             </div>
           </div>
         </div>
@@ -135,35 +149,21 @@ const Table = <T extends object>({ columns, data, loading, error }: TableProps<T
 
   return (
     <div className="w-full px-5">
-      <div className="flex items-center w-full md:max-w-[280px] h-[33px] border rounded-xl px-4 mb-4" style={{
-        borderColor: 'var(--Colors-Neutral-300, #F1F2F9)',
-        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-      }}>
-        <input
-          type="text"
-          value={globalFilter || ''}
-          onChange={handleSearchInputChange}
-          placeholder="Search..."
-          className="flex-grow bg-transparent outline-none text-sm text-gray-500 placeholder:text-gray-400"
-          aria-label="Search"
-        />
-        {isSearching ? (
-          <RefreshCw className="w-4 h-4 text-black animate-spin ml-2" />
-        ) : (
-          <Search className="w-4 h-4 text-black ml-2" />
-        )}
-      </div>
-
+      {SearchInput}
       <div className="overflow-x-auto rounded-lg border border-[#F1F2F9]">
         <div className="px-1">
-          <table {...getTableProps()} className="w-full text-sm min-w-[600px] border-separate border-spacing-y-4">
+          <table
+            {...getTableProps()}
+            className="w-full text-sm min-w-[600px] border-separate border-spacing-y-4"
+          >
             <thead>
               {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className="text-start">
+                <tr {...headerGroup.getHeaderGroupProps()} className="text-start" key={headerGroup.id}>
                   {headerGroup.headers.map((column) => (
-                    <th 
-                      {...column.getHeaderProps()} 
+                    <th
+                      {...column.getHeaderProps()}
                       className="px-4 py-2 text-start text-[#535353]"
+                      key={column.id}
                     >
                       {column.render('Header')}
                     </th>
@@ -185,15 +185,15 @@ const Table = <T extends object>({ columns, data, loading, error }: TableProps<T
                     <tr
                       {...row.getRowProps()}
                       className="bg-white rounded-sm shadow-[0px_2px_16px_0px_#999BA81F] hover:shadow-[0px_4px_20px_0px_#999BA81F] transition-shadow"
+                      key={row.id}
                     >
                       {row.cells.map((cell, cellIndex) => (
                         <td
                           {...cell.getCellProps()}
                           className={`px-4 py-6 ${
                             cellIndex === 0 ? 'rounded-l-sm' : ''
-                          } ${
-                            cellIndex === row.cells.length - 1 ? 'rounded-r-sm' : ''
-                          }`}
+                          } ${cellIndex === row.cells.length - 1 ? 'rounded-r-sm' : ''}`}
+                          key={cell.column.id}
                         >
                           {cell.render('Cell')}
                         </td>

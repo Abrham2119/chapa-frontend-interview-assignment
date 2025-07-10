@@ -33,8 +33,7 @@ export const handlers = [
 http.get('/api/transactions', ({ request }) => {
     const url = new URL(request.url);
     const userId = url.searchParams.get('userId');
-    console.log('GET /api/transactions userId:', userId); // Debug query param
-    // Filter transactions by userId and ensure no undefined items
+    console.log('GET /api/transactions userId:', userId);
     const filteredTransactions = transactions
       .filter((tx) => tx && tx.userId === Number(userId))
       .filter((tx) => tx.id && typeof tx.amount === 'number' && tx.date && tx.status && tx.recipient);

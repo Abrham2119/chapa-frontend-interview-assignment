@@ -47,9 +47,9 @@ export default function Admins() {
       <h2 className="text-2xl font-bold mb-4 text-lime-500 text-center">Admins</h2>
 
       <ul className="space-y-3">
-        {admins.map((a) => (
+        {admins.map((a,index) => (
           <li
-            key={a.id}
+            key={index}
             className="p-4 border border-gray-200 dark:border-gray-700 rounded-md w-full flex justify-between items-center"
           >
             <div>
