@@ -1,9 +1,10 @@
 'use client';
 
-import { Provider } from 'react-redux';
-import { store } from '@/redux/store';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import MSWInitializer from '@/components/MSWInitializer';
 import ReduxInitializer from '@/components/ReduxInitializer';
+import { store } from '@/redux/store';
+import { Provider } from 'react-redux';
 import '../styles/globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

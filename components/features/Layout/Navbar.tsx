@@ -20,7 +20,6 @@ export function Navbar() {
       
         </div>
       </div>
-
       {mobileMenuOpen && (
         <div
           className=" absolute md:hidden   bg-black bg-opacity-50 z-40"

@@ -1,20 +1,26 @@
-'use client';
+"use client";
 
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { Navbar } from "@/components/features/Layout/Navbar";
 import { Sidebar } from "@/components/features/Layout/Sidebar";
 import { useAuth } from "@/hooks/useAuth";
 
-
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { isAuthenticated, checkAuth } = useAuth();
 
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex-1 h-screen overflow-y-auto">
-        <Navbar />
-        <main className="p-6">{children}</main>
+    <ProtectedRoute>
+      <div className="flex h-screen">
+        <Sidebar />
+        <div className="flex-1 h-screen overflow-y-auto">
+          <Navbar />
+          <main className="p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 }

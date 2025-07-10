@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-
 const MSWInitializer = () => {
   useEffect(() => {
     if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
@@ -14,7 +13,6 @@ const MSWInitializer = () => {
       });
     }
   }, []);
-
   return null;
 };
 
