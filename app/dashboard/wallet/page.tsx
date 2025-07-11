@@ -6,7 +6,7 @@ import { useAppSelector } from '@/redux/hooks';
 
 export default function Wallet() {
   const { role, user } = useAppSelector((state) => state.auth);
-  const [balance, setBalance] = useState<number>(0); // Start with 0.00
+  const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -26,11 +26,10 @@ export default function Wallet() {
       try {
         const res = await fetch(`/api/transactions?userId=${user?.id ?? ''}`);
         const data = await res.json();
-
         if (data && typeof data.balance === 'number') {
           setBalance(data.balance);
         } else {
-          setBalance(0);  
+          setBalance(0);
         }
       } catch (error) {
         console.error('Error fetching balance:', error);

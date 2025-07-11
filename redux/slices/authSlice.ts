@@ -58,9 +58,7 @@ export const initiateTransaction = createAsyncThunk(
       body: JSON.stringify(transactionData),
     });
     const data = await response.json();
-    if (!data.transaction || !data.transaction.id || typeof data.transaction.amount !== 'number') {
-      throw new Error('Invalid transaction data received');
-    }
+    if (!data.transaction) throw new Error('Invalid transaction data received');
     return data.transaction;
   }
 );
