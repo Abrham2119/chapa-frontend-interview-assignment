@@ -58,8 +58,6 @@ export const initiateTransaction = createAsyncThunk(
       body: JSON.stringify(transactionData),
     });
     const data = await response.json();
-    console.log('initiateTransaction response:', data); // Debug API response
-    // Ensure the transaction is valid before returning
     if (!data.transaction || !data.transaction.id || typeof data.transaction.amount !== 'number') {
       throw new Error('Invalid transaction data received');
     }

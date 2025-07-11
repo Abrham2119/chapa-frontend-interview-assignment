@@ -33,18 +33,19 @@ const Transactions = () => {
   ];
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Transactions</h2>
+    <div className="p-4 max-w-full mx-auto">
+      <h2 className="text-2xl font-semibold mb-4 text-center sm:text-left">Transactions</h2>
       <TransactionForm />
-      <h3 className="text-xl font-semibold mb-2">Recent Transactions</h3>
+      <h3 className="text-xl font-semibold mb-2 mt-6 text-center sm:text-left">Recent Transactions</h3>
 
-      {/* Conditional Rendering Fixed */}
       {status === 'loading' && !transactionsLoaded ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : transactions.length === 0 && transactionsLoaded ? (
-        <p>No transactions found</p>
+        <p className="text-center">No transactions found</p>
       ) : (
-        <Table columns={columns} data={transactions} />
+        <div className="overflow-x-auto">
+          <Table columns={columns} data={transactions} />
+        </div>
       )}
     </div>
   );
