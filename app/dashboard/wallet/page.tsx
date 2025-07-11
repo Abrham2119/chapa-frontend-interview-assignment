@@ -21,7 +21,7 @@ export default function Wallet() {
       return;
     }
 
-    fetch('/api/transactions')
+   fetch(`/api/transactions?userId=${user.user?.id ?? ''}`)
       .then((res) => res.json())
       .then((data) => setBalance(data.balance));
   }, [user, router]);
