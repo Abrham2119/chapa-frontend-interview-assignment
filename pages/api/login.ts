@@ -1,12 +1,7 @@
 // pages/api/login.ts
 
+import { users } from '@/services/mocks/users'
 import type { NextApiRequest, NextApiResponse } from 'next'
-
-const users = [
-  { email: 'john@gmail.com', password: 'userpass', role: 'User' },
-  { email: 'admin@gmail.com', password: 'adminpass', role: 'Admin' },
-  { email: 'super@gmail.com', password: 'superpass', role: 'Super_Admin' },
-]
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
