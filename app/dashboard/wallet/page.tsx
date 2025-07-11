@@ -11,7 +11,6 @@ export default function Wallet() {
 
   useEffect(() => {
     if (!user.role) {
-      // Not logged in
       router.push('/');
       return;
     }

@@ -43,10 +43,8 @@ export default function Admins() {
   };
 
   return (
-    
     <div className="mx-auto max-w-xl p-6 border-2 border-lime-500 rounded-2xl shadow-md bg-white   text-gray-800  ">
       <h2 className="text-2xl font-bold mb-4 text-lime-500 text-center">Admins</h2>
-
       <ul className="space-y-3">
         {admins.map((a,index) => (
           <li

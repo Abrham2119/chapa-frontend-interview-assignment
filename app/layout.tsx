@@ -1,6 +1,5 @@
 'use client';
 
-import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import MSWInitializer from '@/components/MSWInitializer';
 import ReduxInitializer from '@/components/ReduxInitializer';
 import { store } from '@/redux/store';
