@@ -10,6 +10,8 @@ import {
   StatsIcon 
 } from './icons';
 import { useAuth } from '@/hooks/useAuth';
+import { usePathname } from 'next/navigation';
+
 
 type NavItem = {
   id: number;
@@ -21,8 +23,7 @@ type NavItem = {
 
 export function NavItems() {
   const { role } = useAuth();
-
-
+  const pathname = usePathname();
 
   const navItems: NavItem[] = [
     {
@@ -79,7 +80,10 @@ export function NavItems() {
         <li key={index}>
           <Link
             href={item.href}
-            className="flex items-center p-2 text-white rounded-lg hover:bg-lime-600 group"
+           className={`flex items-center p-2 text-white rounded-lg group ${
+  pathname === item.href ? 'bg-lime-600' : 'hover:bg-lime-600'
+}`}
+
           >
             {item.icon}
             <span className="ms-3">{item.label}</span>

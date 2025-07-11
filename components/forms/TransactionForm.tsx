@@ -96,7 +96,7 @@ const TransactionForm = () => {
       {error && <span className="text-red-500 text-xs mt-2 block text-center sm:text-left">{error}</span>}
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 px-4">
+        <div className="fixed inset-0 bg-black/40 bg-opacity-60 flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h2 className="text-lg font-semibold mb-4">Are you sure?</h2>
             <p className="mb-6">Do you want to initiate this transaction?</p>
