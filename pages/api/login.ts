@@ -1,18 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
+// pages/api/login.ts
+
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const users = [
   { email: 'john@gmail.com', password: 'userpass', role: 'User' },
   { email: 'admin@gmail.com', password: 'adminpass', role: 'Admin' },
   { email: 'super@gmail.com', password: 'superpass', role: 'Super_Admin' },
-];
+]
 
-export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
-  const user = users.find((u) => u.email === email && u.password === password);
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    const { email, password } = req.body
 
-  if (user) {
-    return NextResponse.json({ email: user.email, role: user.role }, { status: 200 });
+    const user = users.find((u) => u.email === email && u.password === password)
+
+    if (user) {
+      return res.status(200).json({ email: user.email, role: user.role })
+    } else {
+      return res.status(401).json({ error: 'Invalid email or password' })
+    }
   }
 
-  return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
+  res.setHeader('Allow', ['POST'])
+  return res.status(405).end(`Method ${req.method} Not Allowed`)
 }
