@@ -6,7 +6,7 @@ import { fetchStats } from '@/redux/slices/authSlice';
 
 const Stats = () => {
   const dispatch = useAppDispatch();
-  const { stats, status } = useAppSelector((state) => state.auth);
+  const { stats } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchStats());
