@@ -1,4 +1,6 @@
-🌟 Chapa Frontend Interview Assignment
+🌟 **Chapa Frontend Interview Assignment**  
+[https://chapa-frontend-interview-assignment-feg76wau2.vercel.app/](https://chapa-frontend-interview-assignment-feg76wau2.vercel.app/)
+
 This is a Next.js project implementing a role-based dashboard application with authentication, session persistence, and mock APIs. The application supports three user roles—User, Admin, and Super Admin—with distinct dashboard functionalities, including wallet balance, transaction management, user management, admin management, and system statistics. The project uses modern web technologies to deliver a responsive and secure user experience.
 
 🚀 Features
@@ -221,6 +223,13 @@ Stats (/dashboard/stats):
 Shows total payments and active users.
 ![image](https://github.com/user-attachments/assets/762da597-0be9-4d43-b205-6d769e07d133)
 
+
+### **⚠️ Important Considerations and Known Limitations**
+
+- 🗄️ On the server, updated data may be lost after a refresh because there is no database.  
+- 🛠️ This project uses Mock Service Worker (MSW) for local API mocking.  
+- 🚫 MSW does not work properly in production environments like Vercel, causing possible data update issues.  
+- 💡 **Remember:** For persistent data storage, a real backend and database are required.
 
 
 
