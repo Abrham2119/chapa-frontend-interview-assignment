@@ -1,47 +1,52 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Transaction, Status } from '@/types';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { transactions } from '@/services/mocks/transactions'; 
+import { Status, Transaction } from '@/types';
 
-let transactions: Transaction[] = [];
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    const userId = Number(req.query.userId);
 
-export async function GET(req: NextRequest) {
-  const userId = Number(req.nextUrl.searchParams.get('userId'));
+    if (!userId || isNaN(userId) || userId <= 0) {
+      return res.status(400).json({ error: 'Missing or invalid userId query parameter' });
+    }
 
-  if (!userId || isNaN(userId) || userId <= 0) {
-    return NextResponse.json({ error: 'Missing or invalid userId' }, { status: 400 });
+    const filtered = transactions.filter((tx) => tx.userId === userId);
+    const balance = filtered.reduce((acc, tx) => acc + tx.amount, 0);
+
+    return res.status(200).json({ balance, transactions: filtered });
   }
 
-  const filtered = transactions.filter((tx) => tx.userId === userId);
-  const balance = filtered.reduce((acc, tx) => acc + tx.amount, 0);
+  if (req.method === 'POST') {
+    const { userId, amount, recipient } = req.body;
 
-  return NextResponse.json({ balance, transactions: filtered });
-}
+    if (
+      !userId || 
+      typeof userId !== 'number' ||
+      typeof amount !== 'number' || 
+      !recipient || 
+      typeof recipient !== 'string'
+    ) {
+      return res.status(400).json({ error: 'Invalid transaction data' });
+    }
 
-export async function POST(req: NextRequest) {
-  const { userId, amount, recipient } = await req.json();
+    const maxId = transactions.reduce((max, tx) => (tx.id > max ? tx.id : max), 0);
+    const newTransaction: Transaction = {
+      id: maxId + 1,
+      userId,
+      amount,
+      recipient,
+      date: new Date().toISOString(),
+      status: Status.SUCCESS,
+    };
 
-  if (
-    !userId ||
-    typeof userId !== 'number' ||
-    typeof amount !== 'number' ||
-    !recipient ||
-    typeof recipient !== 'string'
-  ) {
-    return NextResponse.json({ error: 'Invalid transaction data' }, { status: 400 });
+    transactions.unshift(newTransaction);
+
+    const userTransactions = transactions.filter((tx) => tx.userId === userId);
+    const updatedBalance = userTransactions.reduce((acc, tx) => acc + tx.amount, 0);
+
+    return res.status(200).json({ transaction: newTransaction, balance: updatedBalance });
   }
 
-  const newTransaction: Transaction = {
-    id: transactions.length + 1,
-    userId,
-    amount,
-    recipient,
-    date: new Date().toISOString(),
-    status: Status.SUCCESS,
-  };
-
-  transactions.unshift(newTransaction);
-
-  const userTransactions = transactions.filter((tx) => tx.userId === userId);
-  const updatedBalance = userTransactions.reduce((acc, tx) => acc + tx.amount, 0);
-
-  return NextResponse.json({ transaction: newTransaction, balance: updatedBalance });
-}
+  res.setHeader('Allow', ['GET', 'POST']);
+  return res.status(405).end(Method ${req.method} Not Allowed);
+} 

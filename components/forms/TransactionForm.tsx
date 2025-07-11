@@ -42,7 +42,7 @@ const TransactionForm = () => {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      setShowModal(true);
+      setShowModal(true);  
     }
   };
 
@@ -66,9 +66,9 @@ const TransactionForm = () => {
   };
 
   return (
-    <div className="mb-6 sm:px-0 max-w-md mx-auto">
-      <h3 className="text-xl font-semibold text-start mb-4 sm:text-left">Initiate Transaction</h3>
-      <div className="flex flex-col sm:flex-row sm:gap-4 gap-3">
+    <div className="mb-6  sm:px-0  max-w-md mx-auto">
+      <h3 className="text-xl font-semibold text-start mb-4    sm:text-left">Initiate Transaction</h3>
+      <div className="flex flex-col  sm:flex-row sm:gap-4 gap-3">
         <input
           type="number"
           value={amount}
