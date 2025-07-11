@@ -50,5 +50,6 @@ export interface AuthState {
   transactions: Transaction[];
   stats: Stats | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  transactionsLoaded:boolean
   error: string | null;
 }

@@ -10,14 +10,13 @@ import { Column } from 'react-table';
 
 const Transactions = () => {
   const dispatch = useAppDispatch();
-  const { user, transactions, status } = useAppSelector((state) => state.auth);
+  const { user, transactions, status, transactionsLoaded } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (user?.id) {  
+    if (user?.id) {
       dispatch(fetchTransactions(user.id));
     }
   }, [dispatch, user?.id]);
-
 
   const columns: Column<Transaction>[] = [
     { Header: 'ID', accessor: 'id' },
@@ -33,23 +32,19 @@ const Transactions = () => {
     },
   ];
 
-
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">Transactions</h2>
       <TransactionForm />
       <h3 className="text-xl font-semibold mb-2">Recent Transactions</h3>
 
-
-      {status === 'loading' ? (
+      {/* Conditional Rendering Fixed */}
+      {status === 'loading' && !transactionsLoaded ? (
         <p>Loading...</p>
-      ) : transactions.length === 0 ? (
+      ) : transactions.length === 0 && transactionsLoaded ? (
         <p>No transactions found</p>
       ) : (
-        <Table 
-        columns={columns} 
-        data={transactions} 
-      />
+        <Table columns={columns} data={transactions} />
       )}
     </div>
   );

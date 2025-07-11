@@ -1,9 +1,5 @@
+import { users } from '@/services/mocks/users';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-let users = [
-  { id: 1, email: 'john@gmail.com', password: 'userpass', role: 'User', status: 'Active' },
-  { id: 2, email: 'admin@gmail.com', password: 'adminpass', role: 'Admin', status: 'Inactive' },
-];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const {

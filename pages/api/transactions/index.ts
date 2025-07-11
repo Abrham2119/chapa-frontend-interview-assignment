@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { transactions } from '@/services/mocks/transactions'; 
-import { Status } from '@/types';
+import { Status, Transaction } from '@/types';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     const userId = Number(req.query.userId);
 
-    if (!userId || isNaN(userId)) {
+    if (!userId || isNaN(userId) || userId <= 0) {
       return res.status(400).json({ error: 'Missing or invalid userId query parameter' });
     }
 
@@ -19,12 +19,19 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { userId, amount, recipient } = req.body;
 
-    if (!userId || typeof amount !== 'number' || !recipient) {
+    if (
+      !userId || 
+      typeof userId !== 'number' ||
+      typeof amount !== 'number' || 
+      !recipient || 
+      typeof recipient !== 'string'
+    ) {
       return res.status(400).json({ error: 'Invalid transaction data' });
     }
 
-    const newTransaction = {
-      id: transactions.length + 1,
+    const maxId = transactions.reduce((max, tx) => (tx.id > max ? tx.id : max), 0);
+    const newTransaction: Transaction = {
+      id: maxId + 1,
       userId,
       amount,
       recipient,
@@ -33,7 +40,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     };
 
     transactions.unshift(newTransaction);
-    return res.status(200).json({ transaction: newTransaction });
+
+    const userTransactions = transactions.filter((tx) => tx.userId === userId);
+    const updatedBalance = userTransactions.reduce((acc, tx) => acc + tx.amount, 0);
+
+    return res.status(200).json({ transaction: newTransaction, balance: updatedBalance });
   }
 
   res.setHeader('Allow', ['GET', 'POST']);

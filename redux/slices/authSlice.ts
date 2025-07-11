@@ -81,8 +81,10 @@ const initialState: AuthState = {
   transactions: [],
   stats: null,
   status: 'idle',
+  transactionsLoaded: false,
   error: null,
 };
+
 
 const authSlice = createSlice({
   name: 'auth',
@@ -102,11 +104,13 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       document.cookie = 'role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     },
-   setUser: (state, action: PayloadAction<{ email: string; role: Role }>) => {
+ setUser: (state, action: PayloadAction<{ id: number; email: string; role: Role }>) => {
+  state.user = { id: action.payload.id, email: action.payload.email, role: action.payload.role } as User;
   state.email = action.payload.email;
   state.role = action.payload.role;
   state.isAuthenticated = true;
 },
+
     clearUser: (state) => {
       state.user = null;
       state.email = null;
@@ -137,17 +141,21 @@ const authSlice = createSlice({
       .addCase(removeAdmin.fulfilled, (state, action) => {
         state.users = state.users.filter((u) => u.id !== action.payload);
       })
-      .addCase(fetchTransactions.pending, (state) => {
-        state.status = 'loading';
-      })
-       .addCase(fetchTransactions.fulfilled, (state, action) => {
-      state.transactions = action.payload;
-      state.status = 'succeeded';
-    })
-      .addCase(fetchTransactions.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message || 'Failed to fetch transactions';
-      })
+.addCase(fetchTransactions.pending, (state) => {
+  state.status = 'loading';
+  state.transactionsLoaded = false; 
+})
+.addCase(fetchTransactions.fulfilled, (state, action) => {
+  state.transactions = action.payload;
+  state.status = 'succeeded';
+  state.transactionsLoaded = true;  
+})
+.addCase(fetchTransactions.rejected, (state, action) => {
+  state.status = 'failed';
+  state.error = action.error.message || 'Failed to fetch transactions';
+  state.transactionsLoaded = true;  
+})
+
       .addCase(initiateTransaction.fulfilled, (state, action) => {
         state.transactions.push(action.payload);
       })

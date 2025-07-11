@@ -6,14 +6,15 @@ import { stats } from '../mocks/stats';
 import { Role, Status, StatusType, User, Transaction } from '@/types';
 
 export const handlers = [
-  http.post<never, { email: string; password: string }, DefaultBodyType>('/api/login', async ({ request }) => {
-    const { email, password } = await request.json();
-    const user = users.find((u) => u.email === email && u.password === password);
-    if (user) {
-      return HttpResponse.json({ email, role: user.role }, { status: 200 });
-    }
-    return HttpResponse.json({ error: 'Invalid email or password' }, { status: 401 });
-  }),
+http.post<never, { email: string; password: string }, DefaultBodyType>('/api/login', async ({ request }) => {
+  const { email, password } = await request.json();
+  const user = users.find((u) => u.email === email && u.password === password);
+  if (user) {
+    return HttpResponse.json({ id: user.id, email: user.email, role: user.role }, { status: 200 });
+  }
+  return HttpResponse.json({ error: 'Invalid email or password' }, { status: 401 });
+}),
+
 
   http.get('/api/users', () => {
     return HttpResponse.json(users, { status: 200 });

@@ -43,8 +43,8 @@ const SigninForm = () => {
       })
       const result = await response.json()
       if (response.ok) {
-        Cookies.set('user', JSON.stringify({ email: data.email, role: result.role }), { expires: 7 })
-        dispatch(setUser({ email: data.email, role: result.role }))
+        Cookies.set('user', JSON.stringify({ id: result.id, email: result.email, role: result.role }), { expires: 7 });
+  dispatch(setUser({ id: result.id, email: result.email, role: result.role }));
 
         if (result.role === 'User') {
           router.push('/dashboard/wallet')
