@@ -11,6 +11,8 @@ import { setUser } from '@/redux/slices/authSlice'
 import InputField from '@/components/ui/InputField/InputField'
 import { Phone, Lock, Loader } from 'lucide-react'
 import { Button } from '../ui/Button/Button'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const loginSchema = z.object({
   email: z
@@ -43,8 +45,10 @@ const SigninForm = () => {
       })
       const result = await response.json()
       if (response.ok) {
-        Cookies.set('user', JSON.stringify({ id: result.id, email: result.email, role: result.role }), { expires: 7 });
-  dispatch(setUser({ id: result.id, email: result.email, role: result.role }));
+        Cookies.set('user', JSON.stringify({ id: result.id, email: result.email, role: result.role }), { expires: 7 })
+        dispatch(setUser({ id: result.id, email: result.email, role: result.role }))
+
+        toast.success('Successfully signed in!')
 
         if (result.role === 'User') {
           router.push('/dashboard/wallet')
@@ -55,9 +59,11 @@ const SigninForm = () => {
         }
       } else {
         setError(result.error || 'Login failed')
+        toast.error(result.error || 'Login failed')
       }
     } catch (err) {
       setError('An error occurred during login')
+      toast.error('An error occurred during login')
     } finally {
       setIsLoading(false)
     }
@@ -82,7 +88,7 @@ const SigninForm = () => {
           placeholder="Enter your password"
           error={errors.password?.message}
         />
-        <Button onClick={()=>{}} type="submit" variant="primary" disabled={isLoading}>
+        <Button onClick={() => {}} type="submit" variant="primary" disabled={isLoading}>
           {isLoading ? (
             <Loader className="animate-spin w-4 h-4 mr-2" />
           ) : (
@@ -91,6 +97,7 @@ const SigninForm = () => {
         </Button>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </form>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover />
     </div>
   )
 }
