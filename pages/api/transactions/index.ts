@@ -1,16 +1,19 @@
-import { transactions } from '@/services/mocks/transactions';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Status, Transaction } from '@/types';
+import { transactions } from '@/services/mocks/transactions'; 
+import { Status } from '@/types';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     const userId = Number(req.query.userId);
-    if (!userId) {
-      return res.status(400).json({ error: 'Missing userId query parameter' });
+
+    if (!userId || isNaN(userId)) {
+      return res.status(400).json({ error: 'Missing or invalid userId query parameter' });
     }
 
     const filtered = transactions.filter((tx) => tx.userId === userId);
-    return res.status(200).json({ balance: 1234.56, transactions: filtered });
+    const balance = filtered.reduce((acc, tx) => acc + tx.amount, 0);
+
+    return res.status(200).json({ balance, transactions: filtered });
   }
 
   if (req.method === 'POST') {
@@ -20,7 +23,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ error: 'Invalid transaction data' });
     }
 
-    const newTransaction: Transaction = {
+    const newTransaction = {
       id: transactions.length + 1,
       userId,
       amount,
